@@ -11,8 +11,7 @@
 #import "NSString+Substring.h"
 #import "Climacons.h"
 
-#warning SOLWundergroundDownloader requires a valid API key from Wunderground.com
-#define kAPI_KEY @""
+#define kAPI_KEY @"fcfdd93b8c9bc608d2641c408c528380"
 
 
 #pragma mark - SOLWundergroundDownloader Class Extension
@@ -61,7 +60,7 @@
 
 #pragma mark Using a SOLWundergroundDownloader
 
-- (void)dataForLocation:(CLLocation *)location placemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
+- (void)dataForLocation:(NSString *)location placemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
     /// Requests are not made if the (location and completion) or the delegate is nil
     if(!location || !completion) {
@@ -93,7 +92,7 @@
                      completion(weatherData, connectionError);
                  } else {
                      /// Reverse geocode the given location in order to get city, state, and country
-                     [_geocoder reverseGeocodeLocation:location completionHandler: ^ (NSArray *placemarks, NSError *error) {
+                     [_geocoder geocodeAddressString:location completionHandler: ^ (NSArray *placemarks, NSError *error) {
                          if(placemarks) {
                              weatherData.placemark = [placemarks lastObject];
                              completion(weatherData, error);
@@ -119,21 +118,19 @@
 
 - (void)dataForPlacemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
-    [self dataForLocation:placemark.location placemark:placemark withTag:tag completion:completion];
+    [self dataForLocation:placemark.country placemark:placemark withTag:tag completion:completion];
 }
 
-- (void)dataForLocation:(CLLocation *)location withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
+- (void)dataForLocation:(NSString *)location withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
     [self dataForLocation:location placemark:nil withTag:tag completion:completion];
 }
 
-- (NSURLRequest *)urlRequestForLocation:(CLLocation *)location
+- (NSURLRequest *)urlRequestForLocation:(NSString *)location
 {
-    static NSString *baseURL =  @"http://api.wunderground.com/api/";
-    static NSString *parameters = @"/forecast/conditions/q/";
-    CLLocationCoordinate2D coordinates = location.coordinate;
-    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@%f,%f.json", baseURL, _key, parameters,
-                            coordinates.latitude, coordinates.longitude];
+    static NSString *baseURL =  @"http://sochi.kimonolabs.com/api/";
+    static NSString *parameters = @"/countries/";
+    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals_historical_total&apikey=%@", baseURL, parameters, location, _key];
     NSURL *url = [NSURL URLWithString:requestURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     return request;
