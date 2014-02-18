@@ -415,8 +415,9 @@
 
     
     /// Set the weather view's background color
-    NSString *gradientImageName = @"gradient2.png";
-    weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:gradientImageName]];
+    //NSString *gradientImageName = @"gradient2.png";
+    //weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:gradientImageName]];
+    weatherView.backgroundColor = [UIColor grayColor];
 }
 
 #pragma mark CLLocationManagerDelegate Methods
