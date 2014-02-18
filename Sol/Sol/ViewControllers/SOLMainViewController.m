@@ -399,9 +399,9 @@
     SOLWeatherSnapshot *forecastDayThreeSnapshot    = [data.forecastSnapshots objectAtIndex:2];
     
     /// Set the weather view's forcast day labels
-    weatherView.forecastDayOneLabel.text    = forecastDayOneSnapshot.dayOfWeek;
-    weatherView.forecastDayTwoLabel.text    = forecastDayTwoSnapshot.dayOfWeek;
-    weatherView.forecastDayThreeLabel.text  = forecastDayThreeSnapshot.dayOfWeek;
+    weatherView.forecastDayOneLabel.text    = forecastDayOneSnapshot.dayOfWeek ?: @"0";
+    weatherView.forecastDayTwoLabel.text    = forecastDayTwoSnapshot.dayOfWeek ?: @"0";
+    weatherView.forecastDayThreeLabel.text  = forecastDayThreeSnapshot.dayOfWeek ?: @"0";
     
     /// Set the weather view's forecast icons
     weatherView.forecastIconOneLabel.text   = forecastDayOneSnapshot.icon;
