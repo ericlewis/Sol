@@ -165,7 +165,7 @@
     self.solTitleLabel.backgroundColor = [UIColor clearColor];
     self.solTitleLabel.textColor = [UIColor whiteColor];
     self.solTitleLabel.textAlignment = NSTextAlignmentCenter;
-    self.solTitleLabel.text = @"Sol°";
+    self.solTitleLabel.text = @"Sochi";
     [self.view addSubview:self.solTitleLabel];
 
     /// Initialize the paging scroll wiew
@@ -286,7 +286,7 @@
             
             /// Only update if the minimum time for updates has passed
             if([[NSDate date]timeIntervalSinceDate:weatherData.timestamp] >= kMIN_TIME_SINCE_UPDATE || !weatherView.hasData) {
-                CZLog(@"SOLMainViewController", @"Updating Weather Data for %@, Time Since: %f", weatherData.placemark.locality, [[NSDate date]timeIntervalSinceDate:weatherData.timestamp]);
+                CZLog(@"SOLMainViewController", @"Updating Weather Data for %@, Time Since: %f", weatherData.placemark.country, [[NSDate date]timeIntervalSinceDate:weatherData.timestamp]);
                 
                 /// If the weather view is already showing data, we need to move the activity indicator
                 if(weatherView.hasData) {
@@ -311,7 +311,7 @@
                 }];
                 
             } else {
-                CZLog(@"SOLMainViewController", @"Not Updating Weather Data for %@, Time Since: %f", weatherData.placemark.locality, [[NSDate date]timeIntervalSinceDate:weatherData.timestamp]);
+                CZLog(@"SOLMainViewController", @"Not Updating Weather Data for %@, Time Since: %f", weatherData.placemark.country, [[NSDate date]timeIntervalSinceDate:weatherData.timestamp]);
             }
         }
     }
@@ -376,14 +376,9 @@
     weatherView.conditionDescriptionLabel.text  = data.currentSnapshot.conditionDescription;
     
     /// Only show the country name if not the United States
-    NSString *city      = data.placemark.locality;
-    NSString *state     = data.placemark.administrativeArea;
     NSString *country   = data.placemark.country;
-    if([[country lowercaseString] isEqualToString:@"united states"]) {
-        weatherView.locationLabel.text = [NSString stringWithFormat:@"%@, %@", city, state];
-    } else {
-        weatherView.locationLabel.text = [NSString stringWithFormat:@"%@, %@", city, country];
-    }
+    
+    weatherView.locationLabel.text = country;
     
     SOLTemperature currentTemperature   = data.currentSnapshot.currentTemperature;
     SOLTemperature highTemperature      = data.currentSnapshot.highTemperature;
@@ -403,9 +398,9 @@
     SOLWeatherSnapshot *forecastDayThreeSnapshot    = [data.forecastSnapshots objectAtIndex:2];
     
     /// Set the weather view's forcast day labels
-    weatherView.forecastDayOneLabel.text    = [forecastDayOneSnapshot.dayOfWeek substringWithRange:NSMakeRange(0, 3)];
-    weatherView.forecastDayTwoLabel.text    = [forecastDayTwoSnapshot.dayOfWeek substringWithRange:NSMakeRange(0, 3)];
-    weatherView.forecastDayThreeLabel.text  = [forecastDayThreeSnapshot.dayOfWeek substringWithRange:NSMakeRange(0, 3)];
+    weatherView.forecastDayOneLabel.text    = forecastDayOneSnapshot.dayOfWeek;
+    weatherView.forecastDayTwoLabel.text    = forecastDayTwoSnapshot.dayOfWeek;
+    weatherView.forecastDayThreeLabel.text  = forecastDayThreeSnapshot.dayOfWeek;
     
     /// Set the weather view's forecast icons
     weatherView.forecastIconOneLabel.text   = forecastDayOneSnapshot.icon;
@@ -518,10 +513,10 @@
 
 - (void)didAddLocationWithPlacemark:(CLPlacemark *)placemark
 {
-    CZLog(@"SOLMainViewController", @"Adding Weather View for Location %@", placemark.locality);
+    CZLog(@"SOLMainViewController", @"Adding Weather View for Location %@", placemark.country);
     
     /// Get cached weather data for the added placemark if it exists
-    SOLWeatherData *weatherData = [self.weatherData objectForKey:[NSNumber numberWithInteger:placemark.locality.hash]];
+    SOLWeatherData *weatherData = [self.weatherData objectForKey:[NSNumber numberWithInteger:placemark.country.hash]];
     
     /// Only add a location if it is does not already exist
     if(!weatherData) {
@@ -531,7 +526,7 @@
         weatherView.delegate = self;
         weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:kDEFAULT_BACKGROUND_GRADIENT]];
         [weatherView setLocal:NO];
-        [weatherView setTag:placemark.locality.hash];
+        [weatherView setTag:placemark.country.hash];
         [weatherView.activityIndicator startAnimating];
 
         self.pageControl.numberOfPages += 1;

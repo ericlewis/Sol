@@ -115,7 +115,7 @@
     [self.geocoder geocodeAddressString:searchString completionHandler: ^ (NSArray *placemarks, NSError *error) {
         self.searchResults = [[NSMutableArray alloc]initWithCapacity:1];
         for(CLPlacemark *placemark in placemarks) {
-            if(placemark.country) {
+            if(placemark.country /*&& [placemark.country rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound*/) {
                 [self.searchResults addObject:placemark];
             }
         }

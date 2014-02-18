@@ -220,7 +220,7 @@
     [self.currentTemperatureLabel setBackgroundColor:[UIColor clearColor]];
     [self.currentTemperatureLabel setTextColor:[UIColor whiteColor]];
     [self.currentTemperatureLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.container addSubview:self.currentTemperatureLabel];
+    //[self.container addSubview:self.currentTemperatureLabel];
 }
 
 - (void)initializeHiLoTemperatureLabel
@@ -234,7 +234,7 @@
     [self.hiloTemperatureLabel setBackgroundColor:[UIColor clearColor]];
     [self.hiloTemperatureLabel setTextColor:[UIColor whiteColor]];
     [self.hiloTemperatureLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.container addSubview:self.hiloTemperatureLabel];
+    //[self.container addSubview:self.hiloTemperatureLabel];
 }
 
 - (void)initializeForecastDayLabels
@@ -248,7 +248,7 @@
     
     for(int i = 0; i < [forecastDayLabels count]; ++i) {
         UILabel *forecastDayLabel = [forecastDayLabels objectAtIndex:i];
-        [forecastDayLabel setFrame:CGRectMake(0.425 * self.bounds.size.width + (64 * i), 1.33 * self.center.y, 2 * fontSize, fontSize)];
+        [forecastDayLabel setFrame:CGRectMake(0.129 * self.bounds.size.width + (100 * i), 1.33 * self.center.y, 2 * fontSize, fontSize)];
         [forecastDayLabel setFont:[UIFont fontWithName:LIGHT_FONT size:fontSize]];
         [forecastDayLabel setBackgroundColor:[UIColor clearColor]];
         [forecastDayLabel setTextColor:[UIColor whiteColor]];
@@ -268,7 +268,7 @@
     NSArray *forecastIconLabels = @[self.forecastIconOneLabel, self.forecastIconTwoLabel, self.forecastIconThreeLabel];
     for(int i = 0; i < [forecastIconLabels count]; ++i) {
         UILabel *forecastIconLabel = [forecastIconLabels objectAtIndex:i];
-        [forecastIconLabel setFrame:CGRectMake(0.425 * self.bounds.size.width + (64 * i), 1.42 * self.center.y, fontSize, fontSize)];
+        [forecastIconLabel setFrame:CGRectMake(0.125 * self.bounds.size.width + (100 * i), 1.42 * self.center.y, fontSize, fontSize)];
         [forecastIconLabel setFont:[UIFont fontWithName:CLIMACONS_FONT size:fontSize]];
         [forecastIconLabel setBackgroundColor:[UIColor clearColor]];
         [forecastIconLabel setTextColor:[UIColor whiteColor]];

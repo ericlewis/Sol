@@ -75,13 +75,11 @@
     [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
         if(placemarks) {
         NSURLRequest *request = [self urlRequestForLocation:placemarks.lastObject];
-        NSLog(@"%@", request);
         CZLog(@"SOLWundergroundDownloader", @"Requesting URL: %@", request.URL);
         
         /// Make an asynchronous request to the url
         [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:
          ^ (NSURLResponse * response, NSData *data, NSError *connectionError) {
-             
              /// Report connection errors as download failures to the delegate
              if(connectionError) {
                  completion(nil, connectionError);
@@ -90,6 +88,7 @@
                  /// Serialize the downloaded JSON document and return the weather data to the delegate
                  @try {
                      NSDictionary *JSON = [self serializedData:data];
+                     
                      SOLWeatherData *weatherData = [self dataFromJSON:JSON];
                      if(placemark) {
                          weatherData.placemark = placemark;
@@ -130,7 +129,7 @@
     NSString *country = [[location.country lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     static NSString *baseURL =  @"http://sochi.kimonolabs.com/api/";
     static NSString *parameters = @"countries/";
-    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals_historical_total&apikey=%@", baseURL, parameters, country, _key];
+    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals&apikey=%@", baseURL, parameters, country, _key];
     NSURL *url = [NSURL URLWithString:requestURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     return request;
@@ -159,36 +158,38 @@
     
     SOLWeatherData *data = [[SOLWeatherData alloc]init];
     
-    CGFloat currentHighTemperatureF             = [[[forecastday0 valueForKey:@"high"]  valueForKey:@"fahrenheit"]doubleValue];
+    CGFloat currentHighTemperatureF             = [[[JSON valueForKey:@"medals"] valueForKey:@"silver"] doubleValue];
     CGFloat currentHighTemperatureC             = [[[forecastday0 valueForKey:@"high"]  valueForKey:@"celsius"]doubleValue];
-    CGFloat currentLowTemperatureF              = [[[forecastday0 valueForKey:@"low"]   valueForKey:@"fahrenheit"]doubleValue];
+    
+    CGFloat currentLowTemperatureF              = [[[JSON valueForKey:@"medals"] valueForKey:@"bronze"] doubleValue];
     CGFloat currentLowTemperatureC              = [[[forecastday0 valueForKey:@"low"]   valueForKey:@"celsius"]doubleValue];
-    CGFloat currentTemperatureF                 = [[currentObservation valueForKey:@"temp_f"] doubleValue];
+    
+    CGFloat currentTemperatureF                 = [[[JSON valueForKey:@"medals"] valueForKey:@"gold"] doubleValue];
     CGFloat currentTemperatureC                 = [[currentObservation valueForKey:@"temp_c"] doubleValue];
     
     data.currentSnapshot.dayOfWeek              = [[forecastday0 valueForKey:@"date"] valueForKey:@"weekday"];
-    data.currentSnapshot.conditionDescription   = [currentObservation valueForKey:@"weather"];
+    data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"Medals: %@", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
     data.currentSnapshot.icon                   = [self iconForCondition:data.currentSnapshot.conditionDescription];
     data.currentSnapshot.highTemperature        = SOLTemperatureMake(currentHighTemperatureF,   currentHighTemperatureC);
     data.currentSnapshot.lowTemperature         = SOLTemperatureMake(currentLowTemperatureF,    currentLowTemperatureC);
     data.currentSnapshot.currentTemperature     = SOLTemperatureMake(currentTemperatureF,       currentTemperatureC);
     
     SOLWeatherSnapshot *forecastOne             = [[SOLWeatherSnapshot alloc]init];
-    forecastOne.conditionDescription            = [forecastday1 valueForKey:@"conditions"];
+    forecastOne.conditionDescription            = @"test";
     forecastOne.icon                            = [self iconForCondition:forecastOne.conditionDescription];
-    forecastOne.dayOfWeek                       = [[forecastday1 valueForKey:@"date"] valueForKey:@"weekday"];
+    forecastOne.dayOfWeek                       = [[[JSON valueForKey:@"medals"] valueForKey:@"gold"] stringValue];
     [data.forecastSnapshots addObject:forecastOne];
     
     SOLWeatherSnapshot *forecastTwo             = [[SOLWeatherSnapshot alloc]init];
     forecastTwo.conditionDescription            = [forecastday2 valueForKey:@"conditions"];
     forecastTwo.icon                            = [self iconForCondition:forecastTwo.conditionDescription];
-    forecastTwo.dayOfWeek                       = [[forecastday2 valueForKey:@"date"] valueForKey:@"weekday"];
+    forecastTwo.dayOfWeek                       = [[[JSON valueForKey:@"medals"] valueForKey:@"silver"] stringValue];
     [data.forecastSnapshots addObject:forecastTwo];
     
     SOLWeatherSnapshot *forecastThree           = [[SOLWeatherSnapshot alloc]init];
     forecastThree.conditionDescription          = [forecastday3 valueForKey:@"conditions"];
     forecastThree.icon                          = [self iconForCondition:forecastThree.conditionDescription];
-    forecastThree.dayOfWeek                     = [[forecastday3 valueForKey:@"date"] valueForKey:@"weekday"];
+    forecastThree.dayOfWeek                     = [[[JSON valueForKey:@"medals"] valueForKey:@"bronze"] stringValue];
     [data.forecastSnapshots addObject:forecastThree];
     
     data.timestamp = [NSDate date];
