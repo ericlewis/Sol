@@ -459,8 +459,7 @@
                 [weatherView.activityIndicator startAnimating];
                 
                 /// Initiate download request
-                [[SOLWundergroundDownloader sharedDownloader]dataForLocation:[locations lastObject] withTag:weatherView.tag completion:^(SOLWeatherData *data, NSError *error) {
-                    
+                [[SOLWundergroundDownloader sharedDownloader] dataForLocation:[locations lastObject] withTag:weatherView.tag completion:^(SOLWeatherData *data, NSError *error) {
                     if (data) {
                         // Success
                         CZLog(@"SOLMainViewController", @"Download finished for weather view with tag: %d", weatherView.tag);

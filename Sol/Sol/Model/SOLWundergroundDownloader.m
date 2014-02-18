@@ -60,7 +60,7 @@
 
 #pragma mark Using a SOLWundergroundDownloader
 
-- (void)dataForLocation:(NSString *)location placemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
+- (void)dataForLocation:(CLLocation *)location placemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
     /// Requests are not made if the (location and completion) or the delegate is nil
     if(!location || !completion) {
@@ -71,66 +71,66 @@
     [[UIApplication sharedApplication]setNetworkActivityIndicatorVisible:YES];
     
     /// Get the url request
-    NSURLRequest *request = [self urlRequestForLocation:location];
-    CZLog(@"SOLWundergroundDownloader", @"Requesting URL: %@", request.URL);
     
-    /// Make an asynchronous request to the url
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:
-     ^ (NSURLResponse * response, NSData *data, NSError *connectionError) {
-         
-         /// Report connection errors as download failures to the delegate
-         if(connectionError) {
-             completion(nil, connectionError);
-         } else {
+    [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
+        if(placemarks) {
+        NSURLRequest *request = [self urlRequestForLocation:placemarks.lastObject];
+        NSLog(@"%@", request);
+        CZLog(@"SOLWundergroundDownloader", @"Requesting URL: %@", request.URL);
+        
+        /// Make an asynchronous request to the url
+        [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:
+         ^ (NSURLResponse * response, NSData *data, NSError *connectionError) {
              
-             /// Serialize the downloaded JSON document and return the weather data to the delegate
-             @try {
-                 NSDictionary *JSON = [self serializedData:data];
-                 SOLWeatherData *weatherData = [self dataFromJSON:JSON];
-                 if(placemark) {
-                     weatherData.placemark = placemark;
-                     completion(weatherData, connectionError);
-                 } else {
-                     /// Reverse geocode the given location in order to get city, state, and country
-                     [_geocoder geocodeAddressString:location completionHandler: ^ (NSArray *placemarks, NSError *error) {
-                         if(placemarks) {
-                             weatherData.placemark = [placemarks lastObject];
-                             completion(weatherData, error);
-                         } else if(error) {
-                             completion(nil, error);
-                         }
-                     }];
+             /// Report connection errors as download failures to the delegate
+             if(connectionError) {
+                 completion(nil, connectionError);
+             } else {
+                 
+                 /// Serialize the downloaded JSON document and return the weather data to the delegate
+                 @try {
+                     NSDictionary *JSON = [self serializedData:data];
+                     SOLWeatherData *weatherData = [self dataFromJSON:JSON];
+                     if(placemark) {
+                         weatherData.placemark = placemark;
+                         completion(weatherData, connectionError);
+                     } else {
+                         weatherData.placemark = [placemarks lastObject];
+                         completion(weatherData, error);
+                     }
+                 }
+                 
+                 /// Report any failures during serialization as download failures to the delegate
+                 @catch (NSException *exception) {
+                     completion(nil, [NSError errorWithDomain:@"SOLWundergroundDownloader Internal State Error" code:-1 userInfo:nil]);
+                 }
+                 
+                 /// Always turn off the network activity indicator after requests are fulfilled
+                 @finally {
+                     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
                  }
              }
-             
-             /// Report any failures during serialization as download failures to the delegate
-             @catch (NSException *exception) {
-                 completion(nil, [NSError errorWithDomain:@"SOLWundergroundDownloader Internal State Error" code:-1 userInfo:nil]);
-             }
-             
-             /// Always turn off the network activity indicator after requests are fulfilled
-             @finally {
-                 [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-             }
-         }
-     }];
+         }];
+        }
+    }];
 }
 
 - (void)dataForPlacemark:(CLPlacemark *)placemark withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
-    [self dataForLocation:placemark.country placemark:placemark withTag:tag completion:completion];
+    [self dataForLocation:placemark.location placemark:placemark withTag:tag completion:completion];
 }
 
-- (void)dataForLocation:(NSString *)location withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
+- (void)dataForLocation:(CLLocation *)location withTag:(NSInteger)tag completion:(SOLWeatherDataDownloadCompletion)completion
 {
     [self dataForLocation:location placemark:nil withTag:tag completion:completion];
 }
 
-- (NSURLRequest *)urlRequestForLocation:(NSString *)location
+- (NSURLRequest *)urlRequestForLocation:(CLPlacemark *)location
 {
+    NSString *country = [[location.country lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     static NSString *baseURL =  @"http://sochi.kimonolabs.com/api/";
-    static NSString *parameters = @"/countries/";
-    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals_historical_total&apikey=%@", baseURL, parameters, location, _key];
+    static NSString *parameters = @"countries/";
+    NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals_historical_total&apikey=%@", baseURL, parameters, country, _key];
     NSURL *url = [NSURL URLWithString:requestURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     return request;
