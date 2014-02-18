@@ -154,7 +154,6 @@
     NSArray *simpleforecast                     = [forecast         valueForKey:@"simpleforecast"];
     NSArray *forecastday                        = [simpleforecast   valueForKey:@"forecastday"];
     NSArray *forecastday0                       = [forecastday      objectAtIndex:0];
-    NSArray *forecastday1                       = [forecastday      objectAtIndex:1];
     NSArray *forecastday2                       = [forecastday      objectAtIndex:2];
     NSArray *forecastday3                       = [forecastday      objectAtIndex:3];
     
@@ -170,7 +169,13 @@
     CGFloat currentTemperatureC                 = [[currentObservation valueForKey:@"temp_c"] doubleValue];
     
     data.currentSnapshot.dayOfWeek              = [[forecastday0 valueForKey:@"date"] valueForKey:@"weekday"];
-    data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"Total Medals: %@", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
+    
+    if ((int)[JSON valueForKey:@"medals"] == 1) {
+        data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"%@ Medal", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
+    }else{
+        data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"%@ Medals", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
+    }
+
     data.currentSnapshot.icon                   = [self iconForCondition:data.currentSnapshot.conditionDescription];
     data.currentSnapshot.highTemperature        = SOLTemperatureMake(currentHighTemperatureF,   currentHighTemperatureC);
     data.currentSnapshot.lowTemperature         = SOLTemperatureMake(currentLowTemperatureF,    currentLowTemperatureC);
