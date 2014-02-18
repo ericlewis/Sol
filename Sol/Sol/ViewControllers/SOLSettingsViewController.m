@@ -67,7 +67,7 @@
         self.doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                    target:self
                                                                    action:@selector(doneButtonPressed)];
-        UINavigationItem *navigationItem = [[UINavigationItem alloc]initWithTitle:@"Locations"];
+        UINavigationItem *navigationItem = [[UINavigationItem alloc]initWithTitle:@"Countries"];
         [navigationItem setRightBarButtonItem:self.doneButton];
         [self.navigationBar setItems:@[navigationItem]];
         
@@ -96,8 +96,8 @@
 
 - (void)initializeLocationsTableView
 {
-    self.locationsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 90,
-                                                                           CGRectGetWidth(self.view.bounds), self.view.center.y)
+    self.locationsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64,
+                                                                           CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))
                                                           style:UITableViewStylePlain];
     self.locationsTableView.dataSource = self;
     self.locationsTableView.delegate = self;
@@ -138,7 +138,7 @@
     [self.locationsTableViewTitleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:fontSize]];
     [self.locationsTableViewTitleLabel setTextColor:[UIColor whiteColor]];
     [self.locationsTableViewTitleLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.locationsTableViewTitleLabel setText:@"Locations"];
+    [self.locationsTableViewTitleLabel setText:@"Countries"];
     [self.view addSubview:self.locationsTableViewTitleLabel];
     
     /// Initialize table view title separator

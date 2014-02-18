@@ -15,7 +15,7 @@
 
 /** Constants */
 #define kMIN_TIME_SINCE_UPDATE          300
-#define kMAX_NUM_WEATHER_VIEWS          5
+#define kMAX_NUM_WEATHER_VIEWS          10
 #define kLOCAL_WEATHER_VIEW_TAG         0
 #define kDEFAULT_BACKGROUND_GRADIENT    @"gradient5"
 
