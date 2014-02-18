@@ -14,7 +14,7 @@
 #import "UIView+Screenshot.h"
 
 /** Constants */
-#define kMIN_TIME_SINCE_UPDATE          300
+#define kMIN_TIME_SINCE_UPDATE          60
 #define kMAX_NUM_WEATHER_VIEWS          10
 #define kLOCAL_WEATHER_VIEW_TAG         0
 #define kDEFAULT_BACKGROUND_GRADIENT    @"gradient5"
