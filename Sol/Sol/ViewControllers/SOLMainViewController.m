@@ -14,8 +14,8 @@
 #import "UIView+Screenshot.h"
 
 /** Constants */
-#define kMIN_TIME_SINCE_UPDATE          180
-#define kMAX_NUM_WEATHER_VIEWS          10
+#define kMIN_TIME_SINCE_UPDATE          120
+#define kMAX_NUM_WEATHER_VIEWS          5
 #define kLOCAL_WEATHER_VIEW_TAG         0
 #define kDEFAULT_BACKGROUND_GRADIENT    @"gradient5"
 
@@ -415,8 +415,7 @@
 
     
     /// Set the weather view's background color
-    CGFloat fahrenheit = MIN(MAX(0, currentTemperature.fahrenheit), 99);
-    NSString *gradientImageName = [NSString stringWithFormat:@"gradient%d.png", (int)floor(fahrenheit / 10.0)];
+    NSString *gradientImageName = @"gradient2.png";
     weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:gradientImageName]];
 }
 

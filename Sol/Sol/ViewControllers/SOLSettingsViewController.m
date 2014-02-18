@@ -193,7 +193,6 @@
     
     /// Set cell's label text
     NSArray *location = [self.locations objectAtIndex:indexPath.row];
-    NSLog(@"%@", [location firstObject]);
     cell.textLabel.text = [location firstObject];
     
     return cell;
