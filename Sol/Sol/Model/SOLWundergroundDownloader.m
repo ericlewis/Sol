@@ -127,7 +127,8 @@
 - (NSURLRequest *)urlRequestForLocation:(CLPlacemark *)location
 {
     NSString *country_fixed = [[location.country lowercaseString] stringByReplacingOccurrencesOfString:@"the " withString:@""];
-    NSString *country = [country_fixed stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    NSString *country_russia_fix = [country_fixed stringByReplacingOccurrencesOfString:@"russia" withString:@"russian fed"];
+    NSString *country = [country_russia_fix stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     static NSString *baseURL =  @"http://sochi.kimonolabs.com/api/";
     static NSString *parameters = @"countries/";
     NSString *requestURL = [NSString stringWithFormat:@"%@%@%@?fields=id,name,medals&apikey=%@", baseURL, parameters, country, _key];
