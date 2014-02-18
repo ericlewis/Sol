@@ -213,7 +213,7 @@
 - (void)initializeLocalWeatherView
 {
     SOLWeatherView *localWeatherView = [[SOLWeatherView alloc]initWithFrame:self.view.bounds];
-    localWeatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:kDEFAULT_BACKGROUND_GRADIENT]];
+    localWeatherView.backgroundColor = [UIColor grayColor];
     localWeatherView.local = YES;
     localWeatherView.delegate = self;
     localWeatherView.tag = kLOCAL_WEATHER_VIEW_TAG;
@@ -234,7 +234,7 @@
         if(weatherData) {
             SOLWeatherView *weatherView = [[SOLWeatherView alloc]initWithFrame:self.view.bounds];
             weatherView.delegate = self;
-            weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"gradient5.png"]];
+            weatherView.backgroundColor = [UIColor grayColor];
             weatherView.tag = tagNumber.integerValue;
             weatherView.local = NO;
             self.pageControl.numberOfPages += 1;
@@ -531,7 +531,7 @@
         /// Create a weather view for the newly added location
         SOLWeatherView *weatherView = [[SOLWeatherView alloc]initWithFrame:self.view.bounds];
         weatherView.delegate = self;
-        weatherView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:kDEFAULT_BACKGROUND_GRADIENT]];
+        weatherView.backgroundColor = [UIColor grayColor];
         [weatherView setLocal:NO];
         [weatherView setTag:placemark.country.hash];
         [weatherView.activityIndicator startAnimating];
