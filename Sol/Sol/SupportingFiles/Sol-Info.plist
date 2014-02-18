@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Sol°</string>
+	<string>Sochi Medals</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
@@ -16,7 +16,7 @@
 		<string>iTunesArtwork@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.comyarzaheri.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>com.ericlewis.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -35,6 +35,8 @@
 	<array>
 		<string>Climacons.ttf</string>
 	</array>
+	<key>UIApplicationIsOpaque</key>
+	<false/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
@@ -45,8 +47,6 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIApplicationIsOpaque</key>
-	<false/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 </dict>

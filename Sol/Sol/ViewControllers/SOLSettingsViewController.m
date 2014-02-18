@@ -67,14 +67,11 @@
         self.doneButton = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                    target:self
                                                                    action:@selector(doneButtonPressed)];
-        UINavigationItem *navigationItem = [[UINavigationItem alloc]initWithTitle:@"Settings"];
+        UINavigationItem *navigationItem = [[UINavigationItem alloc]initWithTitle:@"Locations"];
         [navigationItem setRightBarButtonItem:self.doneButton];
         [self.navigationBar setItems:@[navigationItem]];
         
         [self initializeLocationsTableView];
-        [self initializeTemperatureControl];
-        [self initializeCreditLabel];
-        [self initializeLocationsTableViewTitleLabel];
     }
     return self;
 }
@@ -99,7 +96,7 @@
 
 - (void)initializeLocationsTableView
 {
-    self.locationsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, self.view.center.y,
+    self.locationsTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 90,
                                                                            CGRectGetWidth(self.view.bounds), self.view.center.y)
                                                           style:UITableViewStylePlain];
     self.locationsTableView.dataSource = self;
@@ -127,7 +124,7 @@
     [self.creditLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:fontSize]];
     [self.creditLabel setTextColor:[UIColor whiteColor]];
     [self.creditLabel setTextAlignment:NSTextAlignmentCenter];
-    [self.creditLabel setText:@"Created by Comyar Zaheri, for Stephanie"];
+    [self.creditLabel setText:@"Created by Comyar Zaheri, for Stephanie- Specialized by Eric Lewis"];
     [self.view addSubview:self.creditLabel];
 }
 

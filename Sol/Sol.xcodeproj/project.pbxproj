@@ -361,9 +361,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		DD4F967017A8994300E0E7D0 /* Sol */ = {
+		DD4F967017A8994300E0E7D0 /* SochiMedals */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DD4F969D17A8994300E0E7D0 /* Build configuration list for PBXNativeTarget "Sol" */;
+			buildConfigurationList = DD4F969D17A8994300E0E7D0 /* Build configuration list for PBXNativeTarget "SochiMedals" */;
 			buildPhases = (
 				DD4F966D17A8994300E0E7D0 /* Sources */,
 				DD4F966E17A8994300E0E7D0 /* Frameworks */,
@@ -373,7 +373,7 @@
 			);
 			dependencies = (
 			);
-			name = Sol;
+			name = SochiMedals;
 			productName = Sol;
 			productReference = DD4F967117A8994300E0E7D0 /* Sol.app */;
 			productType = "com.apple.product-type.application";
@@ -426,7 +426,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				DD4F967017A8994300E0E7D0 /* Sol */,
+				DD4F967017A8994300E0E7D0 /* SochiMedals */,
 				DD4F968B17A8994300E0E7D0 /* SolTests */,
 			);
 		};
@@ -501,7 +501,7 @@
 /* Begin PBXTargetDependency section */
 		DD4F969217A8994300E0E7D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = DD4F967017A8994300E0E7D0 /* Sol */;
+			target = DD4F967017A8994300E0E7D0 /* SochiMedals */;
 			targetProxy = DD4F969117A8994300E0E7D0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -680,7 +680,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DD4F969D17A8994300E0E7D0 /* Build configuration list for PBXNativeTarget "Sol" */ = {
+		DD4F969D17A8994300E0E7D0 /* Build configuration list for PBXNativeTarget "SochiMedals" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				DD4F969E17A8994300E0E7D0 /* Debug */,
