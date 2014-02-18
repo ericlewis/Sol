@@ -61,7 +61,7 @@
         /// Inititalize and configure search bar
         self.searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, 44)];
         self.searchBar.autocorrectionType = UITextAutocorrectionTypeNo;
-        self.searchBar.placeholder = @"Name of City";
+        self.searchBar.placeholder = @"Name of Country";
         self.searchBar.delegate = self;
         
         /// Initialize and configure search controller
@@ -115,7 +115,7 @@
     [self.geocoder geocodeAddressString:searchString completionHandler: ^ (NSArray *placemarks, NSError *error) {
         self.searchResults = [[NSMutableArray alloc]initWithCapacity:1];
         for(CLPlacemark *placemark in placemarks) {
-            if(placemark.locality) {
+            if(placemark.country) {
                 [self.searchResults addObject:placemark];
             }
         }
@@ -151,14 +151,9 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = [UIColor whiteColor];
         CLPlacemark *placemark = [self.searchResults objectAtIndex:indexPath.row];
-        NSString *city = placemark.locality;
+
         NSString *country = placemark.country;
-        NSString *cellText = [NSString stringWithFormat:@"%@, %@", city, country];
-        if([[country lowercaseString] isEqualToString:@"united states"]) {
-            NSString *state = placemark.administrativeArea;
-            cellText = [NSString stringWithFormat:@"%@, %@", city, state];
-        }
-        cell.textLabel.text = cellText;
+        cell.textLabel.text = country;
     }
     return cell;
 }
