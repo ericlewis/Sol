@@ -175,7 +175,7 @@
 
 - (void)initializeConditionIconLabel
 {
-    const NSInteger fontSize = 180;
+    const NSInteger fontSize = 250;
     self.conditionIconLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width, fontSize)];
     [self.conditionIconLabel setCenter:CGPointMake(self.container.center.x, 0.5 * self.center.y)];
     [self.conditionIconLabel setFont:[UIFont fontWithName:CLIMACONS_FONT size:fontSize]];
@@ -259,7 +259,7 @@
 
 - (void)initializeForecastIconLabels
 {
-    const NSInteger fontSize = 40;
+    const NSInteger fontSize = 60;
     
     self.forecastIconOneLabel = [[UILabel alloc]initWithFrame:CGRectZero];
     self.forecastIconTwoLabel = [[UILabel alloc]initWithFrame:CGRectZero];
@@ -268,7 +268,7 @@
     NSArray *forecastIconLabels = @[self.forecastIconOneLabel, self.forecastIconTwoLabel, self.forecastIconThreeLabel];
     for(int i = 0; i < [forecastIconLabels count]; ++i) {
         UILabel *forecastIconLabel = [forecastIconLabels objectAtIndex:i];
-        [forecastIconLabel setFrame:CGRectMake(0.125 * self.bounds.size.width + (100 * i), 1.42 * self.center.y, fontSize, fontSize)];
+        [forecastIconLabel setFrame:CGRectMake(0.0933f * self.bounds.size.width + (100 * i), 1.39 * self.center.y, fontSize, fontSize)];
         [forecastIconLabel setFont:[UIFont fontWithName:CLIMACONS_FONT size:fontSize]];
         [forecastIconLabel setBackgroundColor:[UIColor clearColor]];
         [forecastIconLabel setTextColor:[UIColor whiteColor]];

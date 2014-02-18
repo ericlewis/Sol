@@ -151,11 +151,11 @@
     /// Initialize the Sol° logo label
     self.solLogoLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 160, 160)];
     self.solLogoLabel.center = CGPointMake(self.view.center.x, 0.5 * self.view.center.y);
-    self.solLogoLabel.font = [UIFont fontWithName:CLIMACONS_FONT size:200];
+    self.solLogoLabel.font = [UIFont fontWithName:CLIMACONS_FONT size:250];
     self.solLogoLabel.backgroundColor = [UIColor clearColor];
     self.solLogoLabel.textColor = [UIColor whiteColor];
     self.solLogoLabel.textAlignment = NSTextAlignmentCenter;
-    self.solLogoLabel.text = [NSString stringWithFormat:@"%c", ClimaconSun];
+    self.solLogoLabel.text = [NSString stringWithFormat:@"%c", ClimaconMoonNew];
     [self.view addSubview:self.solLogoLabel];
 
     /// Initialize the Sol° title label
