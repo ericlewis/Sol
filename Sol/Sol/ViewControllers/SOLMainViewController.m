@@ -161,11 +161,11 @@
     /// Initialize the Sol° title label
     self.solTitleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64)];
     self.solTitleLabel.center = self.view.center;
-    self.solTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:64];
+    self.solTitleLabel.font = [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:50];
     self.solTitleLabel.backgroundColor = [UIColor clearColor];
     self.solTitleLabel.textColor = [UIColor whiteColor];
     self.solTitleLabel.textAlignment = NSTextAlignmentCenter;
-    self.solTitleLabel.text = @"Sochi";
+    self.solTitleLabel.text = @"Sochi Medals";
     [self.view addSubview:self.solTitleLabel];
 
     /// Initialize the paging scroll wiew
@@ -373,12 +373,13 @@
     
     /// Set the current condition icon and description
     weatherView.conditionIconLabel.text         = data.currentSnapshot.icon;
-    weatherView.conditionDescriptionLabel.text  = data.currentSnapshot.conditionDescription;
+    weatherView.conditionIconLabel.textColor    = [UIColor colorWithRed:1 green:0.749 blue:0 alpha:1.0];
+    weatherView.locationLabel.text  = data.currentSnapshot.conditionDescription;
     
     /// Only show the country name if not the United States
     NSString *country   = data.placemark.country;
     
-    weatherView.locationLabel.text = country;
+    weatherView.conditionDescriptionLabel.text = country;
     
     SOLTemperature currentTemperature   = data.currentSnapshot.currentTemperature;
     SOLTemperature highTemperature      = data.currentSnapshot.highTemperature;
@@ -404,8 +405,14 @@
     
     /// Set the weather view's forecast icons
     weatherView.forecastIconOneLabel.text   = forecastDayOneSnapshot.icon;
+    [weatherView.forecastIconOneLabel setTextColor:[UIColor colorWithRed:1 green:0.749 blue:0 alpha:1.0]];
+    
     weatherView.forecastIconTwoLabel.text   = forecastDayTwoSnapshot.icon;
+    [weatherView.forecastIconTwoLabel setTextColor:[UIColor colorWithRed:0.89 green:0.89 blue:0.89 alpha:1.0]];
+
     weatherView.forecastIconThreeLabel.text = forecastDayThreeSnapshot.icon;
+    [weatherView.forecastIconThreeLabel setTextColor:[UIColor colorWithRed:0.765 green:0.373 blue:0 alpha:1.0]];
+
     
     /// Set the weather view's background color
     CGFloat fahrenheit = MIN(MAX(0, currentTemperature.fahrenheit), 99);
@@ -576,7 +583,7 @@
     NSMutableArray *locations = [[NSMutableArray alloc]initWithCapacity:4];
     for(SOLWeatherView *weatherView in self.pagingScrollView.subviews) {
         if(weatherView.tag != kLOCAL_WEATHER_VIEW_TAG) {
-            NSArray *locationMetaData = @[weatherView.locationLabel.text, [NSNumber numberWithInteger:weatherView.tag]];
+            NSArray *locationMetaData = @[weatherView.conditionDescriptionLabel.text, [NSNumber numberWithInteger:weatherView.tag]];
             [locations addObject:locationMetaData];
         }
     }

@@ -168,7 +168,7 @@
     CGFloat currentTemperatureC                 = [[currentObservation valueForKey:@"temp_c"] doubleValue];
     
     data.currentSnapshot.dayOfWeek              = [[forecastday0 valueForKey:@"date"] valueForKey:@"weekday"];
-    data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"Medals: %@", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
+    data.currentSnapshot.conditionDescription   = [NSString stringWithFormat:@"Total Medals: %@", [[JSON valueForKey:@"medals"] valueForKey:@"total"]];
     data.currentSnapshot.icon                   = [self iconForCondition:data.currentSnapshot.conditionDescription];
     data.currentSnapshot.highTemperature        = SOLTemperatureMake(currentHighTemperatureF,   currentHighTemperatureC);
     data.currentSnapshot.lowTemperature         = SOLTemperatureMake(currentLowTemperatureF,    currentLowTemperatureC);
